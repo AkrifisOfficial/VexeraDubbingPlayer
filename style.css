@@ -1,30 +1,111 @@
+:root {
+    --bg-color: #1a1a1a;
+    --sidebar-color: #222;
+    --text-color: #f0f0f0;
+    --item-bg: #333;
+    --item-hover: #444;
+    --accent-color: #e74c3c;
+    --border-color: #333;
+    --player-bg: #000;
+    --info-bg: #111;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+}
+
+.light-theme {
+    --bg-color: #f5f5f5;
+    --sidebar-color: #e0e0e0;
+    --text-color: #333;
+    --item-bg: #d0d0d0;
+    --item-hover: #c0c0c0;
+    --accent-color: #c0392b;
+    --border-color: #ccc;
+    --player-bg: #fff;
+    --info-bg: #eaeaea;
+    --success-color: #27ae60;
+    --error-color: #c0392b;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 body {
-    background-color: #1a1a1a;
-    color: #f0f0f0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     height: 100vh;
     overflow: hidden;
-    transition: background-color 0.3s, color 0.3s;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+}
+
+#themeSwitch, .admin-link {
+    padding: 8px 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.admin-link {
+    background-color: #3498db;
 }
 
 .container {
     display: flex;
     height: 100vh;
+    padding-top: 50px;
 }
 
 .sidebar {
     width: 250px;
-    background-color: #222;
+    background-color: var(--sidebar-color);
     padding: 20px;
     overflow-y: auto;
-    border-right: 1px solid #333;
-    transition: background-color 0.3s, border-color 0.3s;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2, .anime-list h2, .episode-list h2 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box {
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--item-bg);
+    color: var(--text-color);
+    outline: none;
 }
 
 .main-content {
@@ -36,58 +117,294 @@ body {
 .anime-list, .episode-list {
     width: 250px;
     padding: 20px;
-    background-color: #222;
+    background-color: var(--sidebar-color);
     overflow-y: auto;
-    border-right: 1px solid #333;
-    transition: background-color 0.3s, border-color 0.3s;
+    border-right: 1px solid var(--border-color);
+}
+
+.anime-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: var(--item-bg);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.anime-poster {
+    width: 60px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .player {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: #000;
+    background-color: var(--player-bg);
 }
 
 #videoPlayer {
     width: 100%;
     height: 85%;
-    background: #000;
+    background: var(--player-bg);
 }
 
 .player-info {
     padding: 15px;
-    background-color: #111;
-    transition: background-color 0.3s;
+    background-color: var(--info-bg);
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.player-controls button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
 }
 
 ul {
     list-style: none;
-    margin-top: 15px;
+    flex: 1;
+    overflow-y: auto;
 }
 
 li {
     padding: 10px;
     margin-bottom: 5px;
-    background-color: #333;
+    background-color: var(--item-bg);
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
 li:hover {
-    background-color: #444;
-}
-
-h2 {
-    color: #e74c3c;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    transition: color 0.3s;
+    background-color: var(--item-hover);
 }
 
 h3, p {
     margin-bottom: 5px;
+}
+
+.anime-info {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--item-bg);
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Админ-панель */
+.admin-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+}
+
+.login-panel, .admin-panel {
+    background-color: var(--sidebar-color);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 500px;
+}
+
+.admin-panel {
+    max-width: 1200px;
+    width: 95%;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#logoutBtn {
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.admin-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.admin-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--item-bg);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.admin-section h2 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-color);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: var(--sidebar-color);
+    color: var(--text-color);
+    outline: none;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.error {
+    color: var(--error-color);
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.success {
+    color: var(--success-color);
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.admin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: var(--sidebar-color);
+    border-radius: 4px;
+}
+
+.delete-btn {
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.hint {
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 5px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--sidebar-color);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 12px;
+}
+
+.danger {
+    background-color: var(--error-color) !important;
 }
 
 @media (max-width: 768px) {
@@ -97,48 +414,9 @@ h3, p {
     .sidebar, .anime-list, .episode-list {
         width: 100%;
         height: auto;
+        max-height: 200px;
     }
-}
-
-/* Стили для кнопки переключения темы */
-#theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-/* Стили для светлой темы */
-.light-theme {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-.light-theme .sidebar,
-.light-theme .anime-list,
-.light-theme .episode-list {
-    background-color: #e0e0e0;
-    border-right: 1px solid #ccc;
-}
-
-.light-theme .player-info {
-    background-color: #ddd;
-}
-
-.light-theme li {
-    background-color: #ccc;
-}
-
-.light-theme li:hover {
-    background-color: #bbb;
-}
-
-.light-theme h2 {
-    color: #c0392b;
-}
+    .admin-sections {
+        flex-direction: column;
+    }
+    }
