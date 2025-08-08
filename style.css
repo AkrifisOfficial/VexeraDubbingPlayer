@@ -1,3 +1,45 @@
+/* Стили для кнопки переключения темы */
+#theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Светлая тема */
+.light-theme {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.light-theme .sidebar,
+.light-theme .anime-list,
+.light-theme .episode-list {
+    background-color: #e0e0e0;
+    border-right: 1px solid #ccc;
+}
+
+.light-theme .player-info {
+    background-color: #ddd;
+}
+
+.light-theme li {
+    background-color: #d0d0d0;
+}
+
+.light-theme li:hover {
+    background-color: #c0c0c0;
+}
+
+.light-theme h2 {
+    color: #c0392b;
+}
 * {
     margin: 0;
     padding: 0;
