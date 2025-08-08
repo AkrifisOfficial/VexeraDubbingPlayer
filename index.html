@@ -5,24 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VexeraDubbing - Наш Плеер</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <button id="theme-toggle">Темная тема</button> <!-- Кнопка переключения темы -->
+    <div class="theme-toggle">
+        <button id="themeSwitch">🌙 Темная тема</button>
+        <a href="admin.html" class="admin-link"><i class="fas fa-lock"></i> Админ-панель</a>
+    </div>
     
     <div class="container">
         <div class="sidebar">
-            <h2>Плейлисты</h2>
+            <h2><i class="fas fa-list"></i> Плейлисты</h2>
+            <div class="search-box">
+                <input type="text" id="playlistSearch" placeholder="Поиск плейлистов...">
+            </div>
             <ul id="playlists"></ul>
         </div>
         
         <div class="main-content">
             <div class="anime-list">
-                <h2>Аниме</h2>
+                <h2><i class="fas fa-film"></i> Аниме</h2>
+                <div class="search-box">
+                    <input type="text" id="animeSearch" placeholder="Поиск аниме...">
+                </div>
                 <ul id="animes"></ul>
             </div>
             
             <div class="episode-list">
-                <h2>Серии</h2>
+                <h2><i class="fas fa-play-circle"></i> Серии</h2>
+                <div class="search-box">
+                    <input type="text" id="episodeSearch" placeholder="Поиск серий...">
+                </div>
                 <ul id="episodes"></ul>
             </div>
         </div>
@@ -32,10 +45,18 @@
             <div class="player-info">
                 <h3 id="currentAnime"></h3>
                 <p id="currentEpisode"></p>
+                <div class="player-controls">
+                    <button id="prevBtn"><i class="fas fa-backward"></i></button>
+                    <button id="playPauseBtn"><i class="fas fa-play"></i></button>
+                    <button id="nextBtn"><i class="fas fa-forward"></i></button>
+                </div>
             </div>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
