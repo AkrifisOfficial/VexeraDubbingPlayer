@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="login-panel" id="loginPanel">
+            <h1><i class="fas fa-lock"></i> Вход в админ-панель</h1>
+            <div class="form-group">
+                <label for="adminPassword">Пароль:</label>
+                <input type="password" id="adminPassword" placeholder="Введите пароль">
+            </div>
+            <button id="loginBtn">Войти</button>
+            <p id="loginError" class="error"></p>
+        </div>
+        
+        <div class="admin-panel" id="adminPanel" style="display:none;">
+            <div class="admin-header">
+                <h1><i class="fas fa-cog"></i> Панель управления</h1>
+                <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+            </div>
+            
+            <div class="admin-sections">
+                <div class="admin-section">
+                    <h2><i class="fas fa-list"></i> Управление плейлистами</h2>
+                    <div class="form-group">
+                        <label for="playlistName">Название плейлиста:</label>
+                        <input type="text" id="playlistName" placeholder="Новый плейлист">
+                    </div>
+                    <button id="addPlaylistBtn">Добавить плейлист</button>
+                    <ul id="adminPlaylists"></ul>
+                </div>
+                
+                <div class="admin-section">
+                    <h2><i class="fas fa-film"></i> Управление аниме</h2>
+                    <div class="form-group">
+                        <label for="animePlaylist">Плейлист:</label>
+                        <select id="animePlaylist"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="animeTitle">Название аниме:</label>
+                        <input type="text" id="animeTitle" placeholder="Название аниме">
+                    </div>
+                    <div class="form-group">
+                        <label for="animeImage">Постер (URL):</label>
+                        <input type="text" id="animeImage" placeholder="URL постера">
+                    </div>
+                    <div class="form-group">
+                        <label for="animeDescription">Описание:</label>
+                        <textarea id="animeDescription" placeholder="Описание аниме"></textarea>
+                    </div>
+                    <button id="addAnimeBtn">Добавить аниме</button>
+                    <ul id="adminAnimes"></ul>
+                </div>
+                
+                <div class="admin-section">
+                    <h2><i class="fas fa-play-circle"></i> Управление сериями</h2>
+                    <div class="form-group">
+                        <label for="episodePlaylist">Плейлист:</label>
+                        <select id="episodePlaylist"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="episodeAnime">Аниме:</label>
+                        <select id="episodeAnime"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="episodeTitle">Название серии:</label>
+                        <input type="text" id="episodeTitle" placeholder="Название серии">
+                    </div>
+                    <div class="form-group">
+                        <label for="episodeUrl">Ссылка VK:</label>
+                        <input type="text" id="episodeUrl" placeholder="https://vk.com/video-123456789_456789012">
+                        <p class="hint">Вставьте обычную ссылку на видео из VK</p>
+                    </div>
+                    <button id="addEpisodeBtn">Добавить серию</button>
+                    <ul id="adminEpisodes"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
