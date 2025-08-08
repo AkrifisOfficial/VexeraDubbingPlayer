@@ -10,14 +10,18 @@
 <body>
     <div class="admin-container">
         <div class="login-panel" id="loginPanel">
-            <h1><i class="fas fa-lock"></i> Вход в админ-панель</h1>
-            <div class="form-group">
-                <label for="adminPassword">Пароль:</label>
-                <input type="password" id="adminPassword" placeholder="Введите пароль">
-            </div>
-            <button id="loginBtn">Войти</button>
-            <p id="loginError" class="error"></p>
-        </div>
+<h1><i class="fas fa-lock"></i> Вход в админ-панель</h1>
+<div class="form-group">
+    <label for="adminEmail">Email:</label>
+    <input type="email" id="adminEmail" placeholder="Админ email">
+</div>
+<div class="form-group">
+    <label for="adminPassword">Пароль:</label>
+    <input type="password" id="adminPassword" placeholder="Админ пароль">
+</div>
+<button id="adminLoginBtn">Войти</button>
+<p id="loginError" class="error"></p>
+            
         
         <div class="admin-panel" id="adminPanel" style="display:none;">
             <div class="admin-header">
