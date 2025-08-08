@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аниме Плеер</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="theme-toggle">Светлая тема</button>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Плейлисты</h2>
+            <ul id="playlists"></ul>
+        </div>
+        
+        <div class="main-content">
+            <div class="anime-list">
+                <h2>Аниме</h2>
+                <ul id="animes"></ul>
+            </div>
+            
+            <div class="episode-list">
+                <h2>Серии</h2>
+                <ul id="episodes"></ul>
+            </div>
+        </div>
+        
+        <div class="player">
+            <video id="videoPlayer" controls></video>
+            <div class="player-info">
+                <h3 id="currentAnime"></h3>
+                <p id="currentEpisode"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
