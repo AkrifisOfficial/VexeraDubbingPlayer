@@ -10,7 +10,6 @@ body {
     color: #f0f0f0;
     height: 100vh;
     overflow: hidden;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
@@ -24,7 +23,6 @@ body {
     padding: 20px;
     overflow-y: auto;
     border-right: 1px solid #333;
-    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .main-content {
@@ -39,7 +37,6 @@ body {
     background-color: #222;
     overflow-y: auto;
     border-right: 1px solid #333;
-    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .player {
@@ -58,7 +55,6 @@ body {
 .player-info {
     padding: 15px;
     background-color: #111;
-    transition: background-color 0.3s;
 }
 
 ul {
@@ -98,30 +94,3 @@ h3, p {
         height: auto;
     }
 }
-
-/* Стили для кнопки переключения темы */
-#theme-toggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#theme-toggle:hover {
-    background-color: #555;
-}
-
-/* Светлая тема */
-.light-theme {
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-.light-theme .sidebar
