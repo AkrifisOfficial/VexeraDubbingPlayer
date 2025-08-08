@@ -1,11 +1,11 @@
 // Замените значения на свои из Firebase Console
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBXl8EdmQ7zZN_bjYXZ40_XeA2fylCbODA",
+  authDomain: "vexeradubbingplayer.firebaseapp.com",
+  projectId: "vexeradubbingplayer",
+  storageBucket: "vexeradubbingplayer.firebasestorage.app",
+  messagingSenderId: "286154947929",
+  appId: "1:286154947929:web:64b4153cf01bfc02522048",
 };
 
 // Инициализация Firebase
