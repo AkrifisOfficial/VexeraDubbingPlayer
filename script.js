@@ -1,4 +1,116 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Добавляем в начало после объявления переменных
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const userInfo = document.getElementById('userInfo');
+const userAuth = document.getElementById('userAuth');
+const userEmail = document.getElementById('userEmail');
+const authModal = document.getElementById('authModal');
+const modalTitle = document.getElementById('modalTitle');
+const authEmail = document.getElementById('authEmail');
+const authPassword = document.getElementById('authPassword');
+const authError = document.getElementById('authError');
+const confirmAuthBtn = document.getElementById('confirmAuthBtn');
+const switchAuthBtn = document.getElementById('switchAuthBtn');
+const cancelAuthBtn = document.getElementById('cancelAuthBtn');
+
+let isLoginMode = true;
+
+// Инициализация аутентификации
+function initAuth() {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            // Пользователь вошел
+            userEmail.textContent = user.email;
+            userAuth.style.display = 'none';
+            userInfo.style.display = 'block';
+        } else {
+            // Пользователь вышел
+            userInfo.style.display = 'none';
+            userAuth.style.display = 'block';
+        }
+    });
+}
+
+// Открытие модального окна
+loginBtn.addEventListener('click', () => {
+    isLoginMode = true;
+    modalTitle.textContent = 'Вход';
+    confirmAuthBtn.textContent = 'Войти';
+    switchAuthBtn.textContent = 'Регистрация';
+    authError.textContent = '';
+    authModal.style.display = 'flex';
+});
+
+registerBtn.addEventListener('click', () => {
+    isLoginMode = false;
+    modalTitle.textContent = 'Регистрация';
+    confirmAuthBtn.textContent = 'Зарегистрироваться';
+    switchAuthBtn.textContent = 'Войти';
+    authError.textContent = '';
+    authModal.style.display = 'flex';
+});
+
+// Переключение между входом и регистрацией
+switchAuthBtn.addEventListener('click', () => {
+    isLoginMode = !isLoginMode;
+    if (isLoginMode) {
+        modalTitle.textContent = 'Вход';
+        confirmAuthBtn.textContent = 'Войти';
+        switchAuthBtn.textContent = 'Регистрация';
+    } else {
+        modalTitle.textContent = 'Регистрация';
+        confirmAuthBtn.textContent = 'Зарегистрироваться';
+        switchAuthBtn.textContent = 'Войти';
+    }
+    authError.textContent = '';
+});
+
+// Отмена авторизации
+cancelAuthBtn.addEventListener('click', () => {
+    authModal.style.display = 'none';
+});
+
+// Подтверждение авторизации
+confirmAuthBtn.addEventListener('click', () => {
+    const email = authEmail.value.trim();
+    const password = authPassword.value.trim();
+    
+    if (!email || !password) {
+        authError.textContent = 'Заполните все поля';
+        return;
+    }
+    
+    if (isLoginMode) {
+        // Вход
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+                authModal.style.display = 'none';
+            })
+            .catch(error => {
+                authError.textContent = error.message;
+            });
+    } else {
+        // Регистрация
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                authModal.style.display = 'none';
+            })
+            .catch(error => {
+                authError.textContent = error.message;
+            });
+    }
+});
+
+// Выход
+logoutBtn.addEventListener('click', () => {
+    firebase.auth().signOut();
+});
+
+// В конце функции init() добавляем
+initAuth();
+    
     const db = firebase.firestore();
     
     // Элементы DOM
