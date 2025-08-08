@@ -48,19 +48,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Вход в систему
-    loginBtn.addEventListener('click', () => {
-        const password = adminPassword.value.trim();
-        
-        if (password === ADMIN_PASSWORD) {
-            auth.signInWithEmailAndPassword(ADMIN_EMAIL, ADMIN_PASSWORD)
-                .catch(error => {
-                    loginError.textContent = "Ошибка входа: " + error.message;
-                });
-        } else {
-            loginError.textContent = "Неверный пароль";
-        }
-    });
+    // Заменяем старую функцию входа
+document.getElementById('adminLoginBtn').addEventListener('click', () => {
+    const email = document.getElementById('adminEmail').value.trim();
+    const password = document.getElementById('adminPassword').value.trim();
+    
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+            // Проверка, является ли пользователь администратором
+            const user = firebase.auth().currentUser;
+            if (user && user.email === "admin@animeplayer.com") {
+                loginPanel.style.display = 'none';
+                adminPanel.style.display = 'block';
+                loadPlaylists();
+            } else {
+                firebase.auth().signOut();
+                loginError.textContent = "Только администраторы могут войти";
+            }
+        })
+        .catch(error => {
+            loginError.textContent = "Ошибка входа: " + error.message;
+        });
+});
     
     // Выход из системы
     logoutBtn.addEventListener('click', () => {
