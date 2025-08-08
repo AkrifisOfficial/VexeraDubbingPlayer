@@ -1,0 +1,54 @@
+{
+    "playlists": [
+        {
+            "id": "pl1",
+            "name": "Топ осень 2023",
+            "animes": [
+                {
+                    "id": "an1",
+                    "title": "ДжоДжо: Каменный океан",
+                    "episodes": [
+                        {
+                            "title": "Серия 1",
+                            "url": "https://vk.com/video-231399388_456239017"
+                        },
+                        {
+                            "title": "Серия 2",
+                            "url": "https://vk.com/video_ext.php?oid=-123456789&id=456789013&hash=xyz456uvw"
+                        }
+                    ]
+                },
+                {
+                    "id": "an2",
+                    "title": "Атака Титанов: Финальный сезон",
+                    "episodes": [
+                        {
+                            "title": "Серия 64",
+                            "url": "https://vk.com/video_ext.php?oid=-987654321&id=123456789&hash=qwe987rty"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "pl2",
+            "name": "Классика",
+            "animes": [
+                {
+                    "id": "an3",
+                    "title": "Наруто",
+                    "episodes": [
+                        {
+                            "title": "Серия 1: Появление Наруто!",
+                            "url": "https://vk.com/video_ext.php?oid=-112233445&id=556677889&hash=klm456nop"
+                        },
+                        {
+                            "title": "Серия 2: Конкуренция!",
+                            "url": "https://vk.com/video_ext.php?oid=-112233445&id=556677890&hash=rst789uvw"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
