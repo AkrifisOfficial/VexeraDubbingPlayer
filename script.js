@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const db = firebase.firestore();
+    
+    // Элементы DOM
     const playlistsElement = document.getElementById('playlists');
     const animesElement = document.getElementById('animes');
     const episodesElement = document.getElementById('episodes');
@@ -6,10 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentAnimeElement = document.getElementById('currentAnime');
     const currentEpisodeElement = document.getElementById('currentEpisode');
     const themeSwitch = document.getElementById('themeSwitch');
-
+    const playlistSearch = document.getElementById('playlistSearch');
+    const animeSearch = document.getElementById('animeSearch');
+    const episodeSearch = document.getElementById('episodeSearch');
+    const prevBtn = document.getElementById('prevBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
     let playlists = [];
     let currentPlaylist = null;
     let currentAnime = null;
+    let currentEpisodeIndex = -1;
+    let currentEpisodes = [];
 
     // Инициализация темы
     function initTheme() {
@@ -35,19 +46,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Загрузка данных из JSON
-    fetch('data.json')
-        .then(response => response.json())
-        .then(data => {
-            playlists = data.playlists;
-            renderPlaylists();
-        })
-        .catch(error => console.error('Ошибка загрузки данных:', error));
+    // Загрузка данных из Firestore
+    function loadData() {
+        db.collection("playlists").get()
+            .then((querySnapshot) => {
+                playlists = [];
+                querySnapshot.forEach((doc) => {
+                    const playlist = doc.data();
+                    playlist.id = doc.id;
+                    playlists.push(playlist);
+                });
+                renderPlaylists();
+            })
+            .catch((error) => {
+                console.error("Ошибка загрузки данных: ", error);
+                playlistsElement.innerHTML = `<li class="error">Ошибка загрузки данных. Попробуйте позже.</li>`;
+            });
+    }
+
+    // Поиск плейлистов
+    playlistSearch.addEventListener('input', () => {
+        renderPlaylists();
+    });
+
+    // Поиск аниме
+    animeSearch.addEventListener('input', () => {
+        if (currentPlaylist) {
+            renderAnimes(currentPlaylist);
+        }
+    });
+
+    // Поиск серий
+    episodeSearch.addEventListener('input', () => {
+        if (currentAnime) {
+            renderEpisodes(currentAnime);
+        }
+    });
 
     // Отображение плейлистов
     function renderPlaylists() {
         playlistsElement.innerHTML = '';
-        playlists.forEach(playlist => {
+        
+        if (playlists.length === 0) {
+            playlistsElement.innerHTML = '<li class="empty-list">Нет доступных плейлистов</li>';
+            return;
+        }
+        
+        const searchTerm = playlistSearch.value.toLowerCase();
+        const filteredPlaylists = playlists.filter(playlist => 
+            playlist.name.toLowerCase().includes(searchTerm)
+        );
+        
+        if (filteredPlaylists.length === 0) {
+            playlistsElement.innerHTML = '<li class="empty-list">Плейлисты не найдены</li>';
+            return;
+        }
+        
+        filteredPlaylists.forEach(playlist => {
             const li = document.createElement('li');
             li.textContent = playlist.name;
             li.dataset.id = playlist.id;
@@ -62,10 +117,47 @@ document.addEventListener('DOMContentLoaded', () => {
         animesElement.innerHTML = '';
         episodesElement.innerHTML = '';
         currentAnime = null;
+        animeSearch.value = '';
         
-        playlist.animes.forEach(anime => {
+        renderAnimes(playlist);
+    }
+
+    // Отображение аниме
+    function renderAnimes(playlist) {
+        animesElement.innerHTML = '';
+        
+        if (!playlist.animes || playlist.animes.length === 0) {
+            animesElement.innerHTML = '<li class="empty-list">В плейлисте нет аниме</li>';
+            return;
+        }
+        
+        const searchTerm = animeSearch.value.toLowerCase();
+        const filteredAnimes = playlist.animes.filter(anime => 
+            anime.title.toLowerCase().includes(searchTerm)
+        );
+        
+        if (filteredAnimes.length === 0) {
+            animesElement.innerHTML = '<li class="empty-list">Аниме не найдены</li>';
+            return;
+        }
+        
+        filteredAnimes.forEach(anime => {
             const li = document.createElement('li');
-            li.textContent = anime.title;
+            li.className = 'anime-item';
+            
+            // Добавляем постер, если есть
+            if (anime.image) {
+                const img = document.createElement('img');
+                img.src = anime.image;
+                img.className = 'anime-poster';
+                img.alt = anime.title;
+                li.appendChild(img);
+            }
+            
+            const titleSpan = document.createElement('span');
+            titleSpan.textContent = anime.title;
+            li.appendChild(titleSpan);
+            
             li.dataset.id = anime.id;
             li.addEventListener('click', () => selectAnime(anime));
             animesElement.appendChild(li);
@@ -76,24 +168,102 @@ document.addEventListener('DOMContentLoaded', () => {
     function selectAnime(anime) {
         currentAnime = anime;
         episodesElement.innerHTML = '';
+        episodeSearch.value = '';
         
-        anime.episodes.forEach(episode => {
+        // Добавляем информацию об аниме
+        if (anime.description) {
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'anime-info';
+            infoDiv.innerHTML = `
+                <p><strong>Описание:</strong> ${anime.description}</p>
+            `;
+            episodesElement.parentNode.insertBefore(infoDiv, episodesElement);
+        }
+        
+        renderEpisodes(anime);
+    }
+
+    // Отображение серий
+    function renderEpisodes(anime) {
+        episodesElement.innerHTML = '';
+        
+        if (!anime.episodes || anime.episodes.length === 0) {
+            episodesElement.innerHTML = '<li class="empty-list">Нет доступных серий</li>';
+            return;
+        }
+        
+        const searchTerm = episodeSearch.value.toLowerCase();
+        const filteredEpisodes = anime.episodes.filter(episode => 
+            episode.title.toLowerCase().includes(searchTerm)
+        );
+        
+        if (filteredEpisodes.length === 0) {
+            episodesElement.innerHTML = '<li class="empty-list">Серии не найдены</li>';
+            return;
+        }
+        
+        currentEpisodes = filteredEpisodes;
+        
+        filteredEpisodes.forEach((episode, index) => {
             const li = document.createElement('li');
             li.textContent = episode.title;
-            li.addEventListener('click', () => playEpisode(episode));
+            li.addEventListener('click', () => playEpisode(episode, index));
             episodesElement.appendChild(li);
         });
     }
 
     // Воспроизведение серии
-    function playEpisode(episode) {
+    function playEpisode(episode, index) {
+        currentEpisodeIndex = index;
         currentAnimeElement.textContent = currentAnime.title;
         currentEpisodeElement.textContent = episode.title;
-        videoPlayer.src = episode.url;
+        
+        // Преобразование обычной ссылки VK в прямую
+        let directUrl = episode.url;
+        if (episode.url.includes('vk.com/video')) {
+            const matches = episode.url.match(/video(-?\d+_\d+)/);
+            if (matches && matches[1]) {
+                const [oid, id] = matches[1].split('_');
+                directUrl = `https://vk.com/video_ext.php?oid=${oid}&id=${id}`;
+            }
+        }
+        
+        videoPlayer.src = directUrl;
         videoPlayer.load();
         videoPlayer.play();
+        
+        // Обновление кнопки
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
     }
 
-    // Инициализируем тему при загрузке
+    // Кнопка Play/Pause
+    playPauseBtn.addEventListener('click', () => {
+        if (videoPlayer.paused) {
+            videoPlayer.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+            videoPlayer.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    });
+
+    // Следующая серия
+    nextBtn.addEventListener('click', () => {
+        if (currentEpisodes.length > 0 && currentEpisodeIndex < currentEpisodes.length - 1) {
+            const nextEpisode = currentEpisodes[currentEpisodeIndex + 1];
+            playEpisode(nextEpisode, currentEpisodeIndex + 1);
+        }
+    });
+
+    // Предыдущая серия
+    prevBtn.addEventListener('click', () => {
+        if (currentEpisodes.length > 0 && currentEpisodeIndex > 0) {
+            const prevEpisode = currentEpisodes[currentEpisodeIndex - 1];
+            playEpisode(prevEpisode, currentEpisodeIndex - 1);
+        }
+    });
+
+    // Инициализация
     initTheme();
+    loadData();
 });
