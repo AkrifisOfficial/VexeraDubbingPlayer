@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="user-panel">
+        <div id="userAuth">
+            <button id="loginBtn">Войти</button>
+            <button id="registerBtn">Регистрация</button>
+        </div>
+        <div id="userInfo" style="display:none;">
+            <span id="userEmail"></span>
+            <button id="logoutBtn">Выйти</button>
+        </div>
+    </div>
+    
     <div class="theme-toggle">
         <button id="themeSwitch">🌙 Темная тема</button>
         <a href="admin.html" class="admin-link"><i class="fas fa-lock"></i> Админ-панель</a>
@@ -53,7 +64,26 @@
             </div>
         </div>
     </div>
-
+<!-- Модальное окно входа/регистрации -->
+    <div id="authModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2 id="modalTitle">Вход</h2>
+            <div class="form-group">
+                <label for="authEmail">Email:</label>
+                <input type="email" id="authEmail" placeholder="Ваш email">
+            </div>
+            <div class="form-group">
+                <label for="authPassword">Пароль:</label>
+                <input type="password" id="authPassword" placeholder="Ваш пароль">
+            </div>
+            <p id="authError" class="error"></p>
+            <div class="modal-buttons">
+                <button id="confirmAuthBtn">Войти</button>
+                <button id="switchAuthBtn">Регистрация</button>
+                <button id="cancelAuthBtn">Отмена</button>
+            </div>
+        </div>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
